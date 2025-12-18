@@ -3,11 +3,20 @@
     danger
   {% elif task.alert_level == 'warning' and task.status == 'todo' %}
     warning
+  {% elif task.status == 'done' %}
+    done
   {% endif %}
 ">
 
+  <h3>
+    {{ task.title }}
 
-  <h3>{{ task.title }}</h3>
+    {% if task.status == "done" %}
+      <span class="praise-badge">
+        🌸 
+      </span>
+    {% endif %}
+  </h3>
 
   {% if task.due_date %}
     <p>期限：{{ task.due_date }}</p>
@@ -17,17 +26,20 @@
     {% if task.status != 'todo' %}
       <a href="/update_status/{{ task.id }}/todo">未着手</a>
     {% endif %}
+
     {% if task.status != 'doing' %}
       <a href="/update_status/{{ task.id }}/doing">進行中</a>
     {% endif %}
+
     {% if task.status != 'done' %}
       <a href="/update_status/{{ task.id }}/done">完了</a>
     {% endif %}
 
-<a href="/edit/{{ task.id }}" class="edit-btn">✏ 編集</a>
+    <a href="/edit/{{ task.id }}" class="edit-btn">✏ 編集</a>
 
     {% if task.status == 'done' %}
       <a href="/delete/{{ task.id }}" class="delete">削除</a>
     {% endif %}
   </div>
+
 </div>
