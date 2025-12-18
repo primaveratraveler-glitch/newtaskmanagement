@@ -2,48 +2,35 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>{{ 'タスク編集' if task else 'タスク追加' }}</title>
+  <title>タスク追加</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
-<h1>{{ 'タスク編集' if task else 'タスク追加' }}</h1>
+<div class="add-container">
+  <div class="add-card">
 
-<div class="form-wrapper">
+    <h1>タスク追加</h1>
 
-<form
-  action="{{ url_for('update_task', task_id=task.id) if task else url_for('add_task') }}"
-  method="post"
->
+    <form action="{{ url_for('add_task') }}" method="post">
 
-  <p>
-    タイトル<br>
-    <input
-      type="text"
-      name="title"
-      value="{{ task.title if task else '' }}"
-      required
-    >
-  </p>
+      <div class="form-group">
+        <label>タイトル</label>
+        <input type="text" name="title" required>
+      </div>
 
-  <p>
-    締切日<br>
-    <input
-      type="date"
-      name="due_date"
-      value="{{ task.due_date if task else '' }}"
-    >
-  </p>
+      <div class="form-group">
+        <label>締切日</label>
+        <input type="date" name="due_date">
+      </div>
 
-  <button type="submit" class="primary-btn">
-    {{ '更新する' if task else '追加する' }}
-  </button>
+      <button type="submit" class="add-btn">追加する</button>
+    </form>
 
-</form>
+    <a href="/" class="back-link">← 戻る</a>
 
+  </div>
 </div>
-
-<p><a href="/">← 戻る</a></p>
 
 </body>
 </html>
