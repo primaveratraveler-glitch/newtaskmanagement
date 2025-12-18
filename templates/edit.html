@@ -1,29 +1,23 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <title>タスク編集</title>
-</head>
-<body>
+<body class="form-page">
 
-<h1>タスク編集</h1>
+<div class="task-form">
+  <h1>タスク編集</h1>
 
-<form action="/update/{{ task.id }}" method="post">
+  <form action="/update/{{ task.id }}" method="post">
+    <p>
+      タイトル<br>
+      <input type="text" name="title" value="{{ task.title }}" required>
+    </p>
 
-  <p>
-    タイトル<br>
-    <input type="text" name="title" value="{{ task.title }}" required>
-  </p>
+    <p>
+      締切日<br>
+      <input type="date" name="due_date" value="{{ task.due_date }}">
+    </p>
 
-  <p>
-    締切日<br>
-    <input type="date" name="due_date" value="{{ task.due_date }}">
-  </p>
+    <button type="submit">保存</button>
+  </form>
 
-  <button type="submit">保存</button>
-</form>
-
-<p><a href="/">戻る</a></p>
+  <a href="/" class="back-link">戻る</a>
+</div>
 
 </body>
-</html>
