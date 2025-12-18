@@ -1,19 +1,10 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <title>タスク追加</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-
 <div class="add-container">
   <div class="add-card">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
     <h1>タスク追加</h1>
 
-    <form action="{{ url_for('add_task') }}" method="post">
-
+    <form action="/add" method="post">
       <div class="form-group">
         <label>タイトル</label>
         <input type="text" name="title" required>
@@ -28,9 +19,5 @@
     </form>
 
     <a href="/" class="back-link">← 戻る</a>
-
   </div>
 </div>
-
-</body>
-</html>
