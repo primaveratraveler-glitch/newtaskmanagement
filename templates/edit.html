@@ -1,23 +1,23 @@
-<body class="form-page">
+<div class="add-container">
+  <div class="add-card">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
-<div class="task-form">
-  <h1>タスク編集</h1>
+    <h1>タスク編集</h1>
 
-  <form action="/update/{{ task.id }}" method="post">
-    <p>
-      タイトル<br>
-      <input type="text" name="title" value="{{ task.title }}" required>
-    </p>
+    <form method="post">
+      <div class="form-group">
+        <label>タイトル</label>
+        <input type="text" name="title" value="{{ task.title }}" required>
+      </div>
 
-    <p>
-      締切日<br>
-      <input type="date" name="due_date" value="{{ task.due_date }}">
-    </p>
+      <div class="form-group">
+        <label>締切日</label>
+        <input type="date" name="due_date" value="{{ task.due_date }}">
+      </div>
 
-    <button type="submit">保存</button>
-  </form>
+      <button type="submit" class="add-btn">更新する</button>
+    </form>
 
-  <a href="/" class="back-link">戻る</a>
+    <a href="/" class="back-link">← 戻る</a>
+  </div>
 </div>
-
-</body>
