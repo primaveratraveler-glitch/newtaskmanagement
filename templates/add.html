@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>タスク追加</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="add-container">
+  <div class="add-card">
+    <h1>＋ タスク追加</h1>
+
+    <form action="/add" method="post">
+
+      <div class="form-group">
+        <label>タスク名</label>
+        <input type="text" name="title" placeholder="例：企画書を仕上げる" required>
+      </div>
+
+<p> <label> <input type="checkbox" name="is_important"> 重要 </label> </p>
+
+      <div class="form-group">
+        <label>締切日</label>
+        <input type="date" name="due_date">
+      </div>
+
+      <button type="submit" class="add-btn">追加する</button>
+    </form>
+
+    <a href="/" class="back-link">← 戻る</a>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>副業タスク管理</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  {% if has_danger %}
+<div id="danger-overlay">
+  <div class="danger-box">
+    <h1>👹 DANGER !!</h1>
+    <p>重要タスクの締切が迫っています</p>
+    <button onclick="closeDanger()">確認した</button>
+  </div>
+</div>
+{% endif %}
+
+
+<h1>副業タスク管理</h1>
+
+<div class="kanban">
+
+  <!-- 未着手 -->
+  <div class="column">
+    <h2>未着手</h2>
+    {% for task in tasks %}
+      {% if task.status == "todo" %}
+        {% include "task_card.html" %}
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <!-- 進行中 -->
+  <div class="column">
+    <h2>進行中</h2>
+    {% for task in tasks %}
+      {% if task.status == "doing" %}
+        {% include "task_card.html" %}
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <!-- 完了 -->
+  <div class="column">
+    <h2>完了</h2>
+    {% for task in tasks %}
+      {% if task.status == "done" %}
+        {% include "task_card.html" %}
+      {% endif %}
+    {% endfor %}
+  </div>
+
+</div>
+
+<p><a href="/add_form">＋ タスク追加</a></p>
+
+
+<script>
+function closeDanger() {
+  const overlay = document.getElementById("danger-overlay");
+  if (overlay) {
+    overlay.style.display = "none";
+  }
+}
+</script>
+
+
+</body>
+</html>
