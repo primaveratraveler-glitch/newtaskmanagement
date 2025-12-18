@@ -29,16 +29,35 @@ def judge_alert(task):
     else:
         return None
 
-@app.route("/edit/<int:task_id>")
-def edit_form(task_id):
+@app.route("/edit/<int:task_id>", methods=["GET", "POST"])
+def edit_task(task_id):
     conn = get_db_connection()
+
     task = conn.execute(
         "SELECT * FROM tasks WHERE id = ?",
         (task_id,)
     ).fetchone()
-    conn.close()
 
-    return render_template("add.html", task=task)
+    if task is None:
+        conn.close()
+        return "Task not found", 404
+
+    if request.method == "POST":
+        title = request.form["title"]
+        due_date = request.form["due_date"]
+
+        conn.execute(
+            "UPDATE tasks SET title = ?, due_date = ? WHERE id = ?",
+            (title, due_date, task_id)
+        )
+        conn.commit()
+        conn.close()
+        return redirect("/")
+
+    conn.close()
+    return render_template("edit.html", task=task)
+
+
 
 
 
@@ -74,25 +93,6 @@ def index():
         has_danger=has_danger
     )
 
-@app.route("/update/<int:task_id>", methods=["POST"])
-def update_task(task_id):
-    title = request.form["title"]
-    due_date = request.form["due_date"]
-
-    conn = get_db_connection()
-    conn.execute(
-        """
-        UPDATE tasks
-        SET title = ?, due_date = ?
-        WHERE id = ?
-        """,
-        (title, due_date, task_id)
-    )
-    conn.commit()
-    conn.close()
-
-    return redirect("/")
-
 
 
 @app.route("/add_form")
@@ -117,17 +117,6 @@ def add_task():
 
     return redirect("/")
 
-
-@app.route("/update_status/<int:task_id>/<new_status>")
-def update_status(task_id, new_status):
-    conn = get_db_connection()
-    conn.execute(
-        "UPDATE tasks SET status = ? WHERE id = ?",
-        (new_status, task_id)
-    )
-    conn.commit()
-    conn.close()
-    return redirect("/")
 
 
 @app.route("/delete/<int:task_id>")
