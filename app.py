@@ -29,6 +29,17 @@ def judge_alert(task):
     else:
         return None
 
+@app.route("/edit/<int:task_id>")
+def edit_form(task_id):
+    conn = get_db_connection()
+    task = conn.execute(
+        "SELECT * FROM tasks WHERE id = ?",
+        (task_id,)
+    ).fetchone()
+    conn.close()
+
+    return render_template("add.html", task=task)
+
 
 
 @app.route("/")
@@ -63,6 +74,24 @@ def index():
         has_danger=has_danger
     )
 
+@app.route("/update/<int:task_id>", methods=["POST"])
+def update_task(task_id):
+    title = request.form["title"]
+    due_date = request.form["due_date"]
+
+    conn = get_db_connection()
+    conn.execute(
+        """
+        UPDATE tasks
+        SET title = ?, due_date = ?
+        WHERE id = ?
+        """,
+        (title, due_date, task_id)
+    )
+    conn.commit()
+    conn.close()
+
+    return redirect("/")
 
 
 
