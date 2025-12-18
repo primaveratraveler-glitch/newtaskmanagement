@@ -24,6 +24,8 @@
       <a href="/update_status/{{ task.id }}/done">完了</a>
     {% endif %}
 
+<a href="/edit/{{ task.id }}" class="edit-btn">✏ 編集</a>
+
     {% if task.status == 'done' %}
       <a href="/delete/{{ task.id }}" class="delete">削除</a>
     {% endif %}
