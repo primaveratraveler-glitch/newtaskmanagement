@@ -75,8 +75,6 @@ def index():
 
     for task in tasks:
         task = dict(task)
-
-        # 完了タスクは判定しない
         if task["status"] == "done":
             task["alert_level"] = None
         else:
@@ -87,12 +85,25 @@ def index():
 
         tasks_with_alert.append(task)
 
+    today = date.today().strftime("%Y/%m/%d")
+
     return render_template(
         "index.html",
         tasks=tasks_with_alert,
-        has_danger=has_danger
+        has_danger=has_danger,
+        today=today
     )
 
+@app.route("/done/<int:task_id>")
+def mark_done(task_id):
+    conn = get_db_connection()
+    conn.execute(
+        "UPDATE tasks SET status = 'done' WHERE id = ?",
+        (task_id,)
+    )
+    conn.commit()
+    conn.close()
+    return redirect("/")
 
 
 @app.route("/add_form")
@@ -117,6 +128,16 @@ def add_task():
 
     return redirect("/")
 
+@app.route("/update_status/<int:task_id>/<new_status>")
+def update_status(task_id, new_status):
+    conn = get_db_connection()
+    conn.execute(
+        "UPDATE tasks SET status = ? WHERE id = ?",
+        (new_status, task_id)
+    )
+    conn.commit()
+    conn.close()
+    return redirect("/")
 
 
 @app.route("/delete/<int:task_id>")
